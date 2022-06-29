@@ -1,3 +1,9 @@
+'''
+VMP 2022-06-29: 
+usage: 
+python hm.py -i sentences/basics.txt -o fig
+'''
+
 # sentenceBERT
 from sentence_transformers import SentenceTransformer
 import matplotlib.pyplot as plt
@@ -5,6 +11,9 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 from datetime import datetime 
+import argparse 
+import re 
+from tqdm import tqdm
 
 ####### actual thing now #######
 ## do 10x10 and then a heatmap ## 
@@ -21,10 +30,8 @@ def cosine(u, v):
 ### really should only do this for one way (i.e. we do double work here)
 def compute_cosine_sim(sentences, cosine, model): 
     dct = {}
-    for sentence in sentences: 
-        print(f"sentence: {sentence}")
+    for sentence in tqdm(sentences): 
         for query in sentences: 
-            print(f"query: {query}")
             sim = cosine(model.encode([sentence])[0], model.encode([query])[0])
             dct[(sentence, query)] = sim
     return dct
@@ -46,7 +53,7 @@ def reshape_dct(dct, decimals = 2):
 
     return x, y, vals
 
-def plot_hm(x, y, vals, outpath, figsize = (10, 10))
+def plot_hm(x, y, vals, outpath, filename, figsize = (8, 8)):
 
     ## plot 
     fig, ax = plt.subplots(figsize = figsize)
@@ -63,11 +70,14 @@ def plot_hm(x, y, vals, outpath, figsize = (10, 10))
     for i in range(len(y)):
         for j in range(len(x)):
             text = ax.text(j, i, vals[i, j],
-                        ha="center", va="center", color="w")
+                        ha="center", va="center", color="w", size = 10)
+
+    # title
+    plt.suptitle(f"Cosine Distance on sentenceBERT embeddings", size = 15)
+    plt.tight_layout()
 
     # save 
-    timestamp = datetime.now().strftime("%H-%M-%S")
-    plt.savefig(f"{outpath}/hm_{timestamp}.png") # should be pdf
+    plt.savefig(f"{outpath}/hm_{filename}.png") # should be pdf
 
 # main
 def main(infile, outpath): 
@@ -89,6 +99,17 @@ def main(infile, outpath):
     x, y, vals = reshape_dct(dct) # decimals = 2 baseline
 
     ## plot 
-    plot_hm(x, y, vals, outpath) # figsize = (10, 10) baseline
+    input_name = re.search(r"sentences/(.*?).txt", infile)[1] 
+    time_stamp = timestamp = datetime.now().strftime("%H-%M-%S")
+    outname = input_name + "_" + time_stamp
+    plot_hm(x, y, vals, outpath, outname) # figsize = (10, 10) baseline
 
 # setup 
+if __name__ == '__main__':
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-i", "--infile", required=True, type=str, help="file to process (csv)")
+    ap.add_argument("-o", "--outpath", required=True, type=str, help='path to folder for saving output files (txt)')
+    args = vars(ap.parse_args())
+    main(
+        infile = args['infile'], 
+        outpath = args['outpath'])
