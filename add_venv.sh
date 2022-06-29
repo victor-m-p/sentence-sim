@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-VENVNAME=psyenv
+VENVNAME=sensim
 source $VENVNAME/bin/activate
 python -m ipykernel install --user --name $VENVNAME --display-name "$VENVNAME"
 #python -m spacy download en_core_web_sm
-#python -m nltk.downloader punkt
+python -m nltk.downloader punkt

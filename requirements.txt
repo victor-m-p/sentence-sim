@@ -1,6 +1,7 @@
 pandas
 numpy
 matplotlib
+seaborn
 tqdm
 ndjson
 gensim
@@ -13,3 +14,4 @@ networkx
 setuptools
 wheel
 community
+sentence-transformers

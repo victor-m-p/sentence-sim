@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VENVNAME=psyenv
+VENVNAME=sensim
 
 python3 -m venv $VENVNAME
 source $VENVNAME/bin/activate
