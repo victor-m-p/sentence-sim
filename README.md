@@ -5,8 +5,6 @@ Testing sentence embeddings for CMU project.
 # Figures (heatmaps)
 
 ## basic testing 
-#### Figure 5: Mentioners in network (out-degree) 
-#### Figure 5: Mentioners in network (out-degree) 
 ![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_basics_23-25-43.png)
 
 ## long-short sentences testing
