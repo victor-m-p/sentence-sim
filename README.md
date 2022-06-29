@@ -6,9 +6,11 @@ Testing sentence embeddings for CMU project.
 
 ## basic testing 
 #### Figure 5: Mentioners in network (out-degree) 
-![alt text](https://github.com/centre-for-humanities-computing/china-twitter/blob/main/networks/fig/networks/network_focus_out_degree_seed11_k1.8.png)
-## long-short sentences testing
+#### Figure 5: Mentioners in network (out-degree) 
+![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_basics_23-25-43.png)
 
+## long-short sentences testing
+![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_long_short_23-26-36.png)
 
 ## Description
 
