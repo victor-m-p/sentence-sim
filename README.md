@@ -1,6 +1,14 @@
 # Project Title
 
-Simple overview of use/purpose.
+Testing sentence embeddings for CMU project. 
+
+# Figures (heatmaps)
+
+## basic testing 
+#### Figure 5: Mentioners in network (out-degree) 
+![alt text](https://github.com/centre-for-humanities-computing/china-twitter/blob/main/networks/fig/networks/network_focus_out_degree_seed11_k1.8.png)
+## long-short sentences testing
+
 
 ## Description
 
