@@ -1,0 +1,15 @@
+pandas
+numpy
+matplotlib
+tqdm
+ndjson
+gensim
+scikit-learn
+argparse
+nltk
+spacy
+spacytextblob
+networkx
+setuptools
+wheel
+community
