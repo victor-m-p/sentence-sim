@@ -86,9 +86,6 @@ sentences = [
 model = SentenceTransformer('bert-base-nli-mean-tokens')
 sentence_embeddings = model.encode(sentences)
 
-
-
-
 query = "call a taxi driver"
 query_vec = sbert_model.encode([query])[0]
 

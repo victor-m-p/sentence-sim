@@ -51,7 +51,7 @@ def reshape_dct(dct, decimals = 2):
     vals = df_unstacked.to_numpy()
     vals = vals.round(decimals = decimals) # round decimals
 
-    return x, y, vals
+    return df
 
 def plot_hm(x, y, vals, outpath, filename, figsize = (8, 8)):
 
@@ -79,37 +79,89 @@ def plot_hm(x, y, vals, outpath, filename, figsize = (8, 8)):
     # save 
     plt.savefig(f"{outpath}/hm_{filename}.png") # should be pdf
 
-# main
-def main(infile, outpath): 
 
-    ## import sentenceBERT model & instantiate
-    print("instantiating model")
-    model = SentenceTransformer('bert-base-nli-mean-tokens')
+infile = "/home/victor/sentence-sim/sentences/basics.txt"
+## import sentenceBERT model & instantiate
+print("instantiating model")
+model = SentenceTransformer('bert-base-nli-mean-tokens')
 
-    ## read sentences 
-    print("reading sentences")
-    sentences = read_sentences(infile)
+## read sentences 
+print("reading sentences")
+sentences = read_sentences(infile)
 
-    ## compute distance 
-    print("computing cosine distance with sentenceBERT")
-    dct = compute_cosine_sim(sentences, cosine, model)
+## compute distance 
+print("computing cosine distance with sentenceBERT")
+dct = compute_cosine_sim(sentences, cosine, model)
 
-    ## reshape
-    print(f"reshape results")
-    x, y, vals = reshape_dct(dct) # decimals = 2 baseline
+## reshape
+print(f"reshape results")
+df = reshape_dct(dct) # decimals = 2 baseline
+df = df.rename(columns = {'sim': 'weight'})
 
-    ## plot 
-    input_name = re.search(r"sentences/(.*?).txt", infile)[1] 
-    time_stamp = timestamp = datetime.now().strftime("%H-%M-%S")
-    outname = input_name + "_" + time_stamp
-    plot_hm(x, y, vals, outpath, outname) # figsize = (10, 10) baseline
+##### network #####
+## remove duplicates
+import networkx as nx 
+from collections import defaultdict
 
-# setup 
-if __name__ == '__main__':
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-i", "--infile", required=True, type=str, help="file to process (csv)")
-    ap.add_argument("-o", "--outpath", required=True, type=str, help='path to folder for saving output files (txt)')
-    args = vars(ap.parse_args())
-    main(
-        infile = args['infile'], 
-        outpath = args['outpath'])
+G = nx.from_pandas_edgelist(
+    df,
+    source = "w1",
+    target = "w2",
+    edge_attr = ["weight"]
+)
+
+node_list = list(G.nodes())
+df = df[df["w1"] < df["w2"]]
+n_labels = len(sentences) # set to 10
+
+# pretty stupid right now # 
+dct_labels = defaultdict()
+for num, ele in enumerate(node_list): 
+    dct_labels[ele] = ele
+dct_labels = dict(dct_labels)
+
+#### all values accepted 
+def plot_net(G, cutoff): 
+
+    edgeattr_weight = nx.get_edge_attributes(G, "weight") ## need to sort here as well
+    edge_width_list = list(edgeattr_weight.values())
+    edge_width_list = [x if x > cutoff else 0 for x in edge_width_list]
+
+    fig, ax = plt.subplots(figsize=(8, 8), dpi=300, facecolor='w', edgecolor='k')
+    plt.axis("off")
+
+    seed = 13 # good: 13, 15 
+    pos = nx.spring_layout(
+        G = G,
+        k = None,
+        iterations = 500,
+        seed = seed)
+
+    nx.draw_networkx_nodes(
+            G, 
+            pos, 
+            nodelist = node_list, 
+            #node_size = node_size, 
+            #node_color = node_color_list,
+            edgecolors = "black",
+            linewidths = 0.5)
+
+    nx.draw_networkx_edges(
+        G, 
+        pos, 
+        #edgelist = edgelst, 
+        width = edge_width_list, 
+        alpha = 1,
+        #edge_color = edge_color_list
+        ) 
+
+    nx.draw_networkx_labels(
+        G, 
+        pos, 
+        labels = dct_labels,
+        font_size = 10) 
+
+    plt.savefig(f"/home/victor/sentence-sim/fig/cutoff_{cutoff}.png")
+
+plot_net(G, 0)
+df["weight"].mean()
