@@ -31,14 +31,27 @@ sentence_embeddings = model.encode(sentences) # not used at the moment.
 def cosine(u, v):
     return np.dot(u, v) / (np.linalg.norm(u) * np.linalg.norm(v))
 
+### check something 
+sentences = [
+    "I love delicious food",
+    "Alien Dominguez kill kitten"
+]
+
+
+
+
+
+
 ## run all pair-wise similarities
 ### really should only do this for one way (i.e. we do double work here)
+
+
 dct = {}
 for sentence in sentences: 
     print(f"sentence: {sentence}")
     for query in sentences: 
         print(f"query: {query}")
-        sim = cosine(model.encode([sentence])[0], model.encode([query])[0])
+        sim = cosine(model.encode(sentence), model.encode(query))
         dct[(sentence, query)] = sim
 
 ## dictionary to pandas
@@ -70,4 +83,50 @@ for i in range(len(y)):
     for j in range(len(x)):
         text = ax.text(j, i, vals[i, j],
                        ha="center", va="center", color="w")
+
+tst = [x for x in range(len(sentence_embeddings))]
+tst
+
+### NB: better set-up ###
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import euclidean_distances
+
+def compute_distance(embeddings, distance_fun, n_decimals): 
+    vals_lst = [distance_fun(
+        [embeddings[x]],
+        embeddings[0:])
+        for x in range(len(embeddings))]
+    vals_concat = np.concatenate(vals_lst)
+    vals_rounded = vals_concat.round(n_decimals)
+    return vals_rounded 
+
+tst = compute_distance(sentence_embeddings, euclidean_distances, 3)
+
+
+pd.DataFrame(sentences)
+
+
+vals_lst = [cosine_similarity(
+    [sentence_embeddings[x]],
+    sentence_embeddings[0:]) 
+    for x in range(len(sentence_embeddings))]
+
+vals_concat = np.concatenate(vals_lst, axis=0 )
+vals_rounded = vals_concat.round(2)
+
+
+for x in range(len(sentence_embeddings)): 
+    print(x) 
+    vals = cosine_similarity(
+        [sentence_embeddings[x]],
+        sentence_embeddings[0:]
+    )
+    print(vals)
+
+
+sentence_embeddings = model.encode(sentences)
+cosine_similarity(
+    [sentence_embeddings[0]],
+    sentence_embeddings[0:]
+)
 

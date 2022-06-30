@@ -5,10 +5,18 @@ Testing sentence embeddings for CMU project.
 # Figures (heatmaps)
 
 ## basic testing 
-![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_basics_23-25-43.png)
+### cosine similarity
+![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_basics_cosine_similarity.png)
+
+### euclidean distance
+![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_basics_euclidean_distances.png)
 
 ## long-short sentences testing
-![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_long_short_23-26-36.png)
+### cosine similarity
+![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_long_short_cosine_similarity.png)
+
+### euclidean distance
+![alt text](https://github.com/victor-m-p/sentence-sim/blob/main/fig/hm_long_short_euclidean_distances.png)
 
 ## Description
 
