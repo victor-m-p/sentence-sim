@@ -9,9 +9,9 @@ pip --version
 pip install --upgrade pip
 pip --version
 
-sudo apt-get --allow-releaseinfo-change update
+#sudo apt-get --allow-releaseinfo-change update
 #sudo apt-get -y install graphviz graphviz-dev
-sudo apt-get -y install zip unzip
+#sudo apt-get -y install zip unzip
 #sudo apt-get -y install python3-graph-tool
 
 #sudo apt-get install python3-pil tesseract-ocr libtesseract-dev tesseract-ocr-eng tesseract-ocr-script-latn

@@ -37,14 +37,8 @@ sentences = [
     "Alien Dominguez kill kitten"
 ]
 
-
-
-
-
-
 ## run all pair-wise similarities
 ### really should only do this for one way (i.e. we do double work here)
-
 
 dct = {}
 for sentence in sentences: 
