@@ -68,7 +68,7 @@ def plot_all_text(d):
     '''
     d: pd.Dataframe
     '''
-    fig, ax = plt.subplots(1, figsize = (10, 5), dpi = 300)
+    fig, ax = plt.subplots(1, figsize = (10, 5), dpi = 100)
     clrs = ["tab:blue", "tab:orange", "tab:green"]
     x_grid = np.linspace(0.15, 0.6, 3)
     n_unique = d["variable"].unique()
