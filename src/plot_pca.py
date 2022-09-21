@@ -68,7 +68,7 @@ def plot_all_text(d):
     '''
     d: pd.Dataframe
     '''
-    fig, ax = plt.subplots(1, figsize = (5, 2.5), dpi = 300)
+    fig, ax = plt.subplots(1, figsize = (2, 1), dpi = 300)
     clrs = ["tab:blue", "tab:orange", "tab:green"]
     x_grid = np.linspace(0.15, 0.6, 3)
     n_unique = d["variable"].unique()
@@ -80,13 +80,13 @@ def plot_all_text(d):
         x = list(dx["dim1"])
         y = list(dx["dim2"])
         x_max = max(x)
-        plt.scatter(x, y, color = clrs[i])
-        plt.plot(x, y, color = clrs[i], linewidth=0.5)
+        plt.scatter(x, y, color = clrs[i], s=0.5)
+        plt.plot(x, y, color = clrs[i], linewidth=0.3)
         plt.margins(x=0.2, y=0.2)
         sentences = [re.sub("(.{27})", "\\1\n", x, 0, re.DOTALL) for x in sentences]
         for j, label in enumerate(sentences):
-            plt.annotate(f"{j}", (x[j], y[j]+0.3), ha='center', color=clrs[i])
-            plt.text(x_grid[i], y_grid[j], f"{j}: \n{sentences[j]}", va = 'top', fontsize=5, color = clrs[i], transform=plt.gcf().transFigure)
+            plt.annotate(f"{j}", (x[j], y[j]+0.3), ha='center', fontsize = 4,color=clrs[i])
+            plt.text(x_grid[i], y_grid[j], f"{j}: \n{sentences[j]}", va = 'top', fontsize=2, color = clrs[i], transform=plt.gcf().transFigure)
     plt.axis('off')
     plt.savefig(f"../fig/pca_across_text.jpg", bbox_inches='tight') 
 
